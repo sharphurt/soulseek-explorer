@@ -93,7 +93,7 @@ function AppShell() {
                     </header>
 
                     <div className="transition-opacity duration-300">
-                        {activeView === 'track-search' ? (
+                        {activeView === 'track-soulseek' ? (
                             <TrackSearchView onSelectTrack={handleSelectTrack}/>
                         ) : selectedTrack ? (
                             <SoulseekResultsView

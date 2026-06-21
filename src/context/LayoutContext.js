@@ -3,7 +3,7 @@ import {createContext, useContext, useState,} from 'react';
 const LayoutContext = createContext(null);
 
 export function AppLayoutProvider({children}) {
-    const [activeView, setActiveView] = useState('track-search');
+    const [activeView, setActiveView] = useState('track-soulseek');
     const [isDownloadsOpen, setIsDownloadsOpen] = useState(false)
 
     const closeSidebar = () => setIsDownloadsOpen(false);

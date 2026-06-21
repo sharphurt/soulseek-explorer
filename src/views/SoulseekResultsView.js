@@ -4,9 +4,9 @@ import {getFileNode} from '../utils/utils';
 import {useSoulseekSearch} from '../hooks/useSoulseekSearch.js';
 import {useFilteredResults} from '../hooks/useFilteredResults.js';
 import {useFileDownload} from '../hooks/useFileDownload.js';
-import SearchControls from '../components/search/SearchControls.js';
-import SearchStatus from '../components/search/SearchStatus.js';
-import SearchResultItem from '../components/search/SearchResultItem.js';
+import SearchControls from '../components/soulseek/SearchControls.js';
+import SearchStatus from '../components/soulseek/SearchStatus.js';
+import SearchResultItem from '../components/soulseek/SearchResultItem.js';
 
 export default function SoulseekResultsView({selectedTrack, onBack, onNotify}) {
     const trackId = getTrackId(selectedTrack);
@@ -62,13 +62,12 @@ export default function SoulseekResultsView({selectedTrack, onBack, onNotify}) {
                             <thead
                                 className="border-b border-white/10 bg-slate-950/55 text-xs uppercase tracking-[0.14em] text-slate-500">
                             <tr>
-                                <th className="w-28 px-4 py-3 font-semibold">Extension</th>
+                                <th className="w-36 px-4 py-3 text-right font-semibold"></th>
                                 <th className="px-4 py-3 font-semibold">Filename</th>
                                 <th className="w-32 px-4 py-3 font-semibold">Size</th>
                                 <th className="w-32 px-4 py-3 font-semibold">Bitrate</th>
-                                <th className="w-36 px-4 py-3 font-semibold">User</th>
+                                <th className="w-36 px-4 py-3 font-semibold">Extension</th>
                                 <th className="w-32 px-4 py-3 font-semibold">Speed</th>
-                                <th className="w-36 px-4 py-3 text-right font-semibold">Action</th>
                             </tr>
                             </thead>
                             <tbody>

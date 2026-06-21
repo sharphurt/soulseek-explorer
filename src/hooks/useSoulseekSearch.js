@@ -32,7 +32,7 @@ export const useSoulseekSearch = (trackId) => {
                 if (active) setTaskIds(Array.isArray(payload) ? payload : []);
             } catch (err) {
                 if (active && err.name !== 'AbortError')
-                    setError(err.message || 'Unable to initialize search');
+                    setError(err.message || 'Unable to initialize soulseek');
             } finally {
                 if (active) setIsInitializing(false);
             }
