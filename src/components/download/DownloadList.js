@@ -22,15 +22,39 @@ const DownloadList = ({downloads, isLoading}) => {
         );
     }
 
+    const inProgress = downloads.filter((download) => download.state !== 'Completed, Succeeded');
+
     return (
         <div className="space-y-3">
-            {downloads.map((download, index) => (
-                <DownloadItem
-                    key={download.id ?? download.uuid ?? `${download.filename}-${index}`}
-                    download={download}
-                />
-            ))}
+            {
+                inProgress.length > 0 ? (
+                    <div>
+                        {inProgress.map((download, index) => (
+                            <DownloadItem
+                                key={download.id ?? download.uuid ?? `${download.filename}-${index}`}
+                                download={download}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className='flex h-10 items-center justify-center text-slate-500'>
+                        <span className='text-sm font-medium'>Нет активных загрузок</span>
+                    </div>
+                )
+            }
+            <details>
+                <summary>Последние загрузки</summary>
+                <div className='pt-2'>
+                    {downloads.filter((download) => download.state === 'Completed, Succeeded').map((download, index) => (
+                        <DownloadItem
+                            key={download.id ?? download.uuid ?? `${download.filename}-${index}`}
+                            download={download}
+                        />
+                    ))}
+                </div>
+            </details>
         </div>
+
     );
 };
 
