@@ -79,16 +79,6 @@ function AppShell() {
                                     Results
                                 </button>
                             </nav>
-
-                            <button
-                                type="button"
-                                className="icon-button lg:hidden"
-                                onClick={openSidebar}
-                                aria-label="Open downloads"
-                                title="Open downloads"
-                            >
-                                <PanelRightOpen className="h-4 w-4" aria-hidden="true"/>
-                            </button>
                         </div>
                     </header>
 

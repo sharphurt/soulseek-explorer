@@ -1,4 +1,4 @@
-import {Clock3, Search} from 'lucide-react';
+import {Clock3} from 'lucide-react';
 import TrackArtwork from "./TrackArtwork.js";
 import {formatDuration, getTrackId} from "../../utils/formatters.js";
 
@@ -7,8 +7,8 @@ const TrackCard = ({track, onSelectTrack}) => {
     const genres = Array.isArray(track.genres) ? track.genres.filter(Boolean) : [];
 
     return (
-        <article
-            className="group flex min-h-[230px] flex-col overflow-hidden rounded-lg border border-white/10 bg-slate-900/65 shadow-xl shadow-black/20 transition duration-200 hover:-translate-y-1 hover:border-cyan-300/35 hover:bg-slate-900/90 hover:shadow-glow">
+        <article onClick={() => onSelectTrack(track)} disabled={!trackId}
+                 className="group flex min-h-[230px] flex-col overflow-hidden rounded-lg border border-white/10 bg-slate-900/65 hover:bg-white/[0.04] shadow-xl shadow-black/20 transition duration-200 cursor-pointer">
             <div className="relative aspect-square overflow-hidden">
                 <TrackArtwork track={track}/>
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/88 to-transparent p-3">
@@ -45,16 +45,16 @@ const TrackCard = ({track, onSelectTrack}) => {
                     </div>
                 )}
 
-                <button
-                    type="button"
-                    className="focus-ring mt-auto inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-cyan-300 px-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200 disabled:bg-slate-700 disabled:text-slate-400"
-                    onClick={() => onSelectTrack(track)}
-                    disabled={!trackId}
-                    title={trackId ? 'Search files on Soulseek' : 'Missing iTunesId'}
-                >
-                    <Search className="h-4 w-4" aria-hidden="true"/>
-                    Search Files on Soulseek
-                </button>
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    className="focus-ring mt-auto inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-cyan-300 px-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200 disabled:bg-slate-700 disabled:text-slate-400"*/}
+                {/*    onClick={() => onSelectTrack(track)}*/}
+                {/*    disabled={!trackId}*/}
+                {/*    title={trackId ? 'Search files on Soulseek' : 'Missing iTunesId'}*/}
+                {/*>*/}
+                {/*    <Search className="h-4 w-4" aria-hidden="true"/>*/}
+                {/*    Search Files on Soulseek*/}
+                {/*</button>*/}
             </div>
         </article>
     );

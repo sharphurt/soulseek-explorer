@@ -31,13 +31,17 @@ export default function TrackSearchView({onSelectTrack}) {
                     />
                 </div>
 
-                <div className="mt-4 flex min-h-6 items-center gap-3 text-sm text-slate-400">
-                    <SearchStatus
-                        error={error}
-                        hasSearched={hasSearched}
-                        count={tracks.length}
-                    />
-                </div>
+                {
+                    hasSearched ? (
+                        <div className="mt-4 flex min-h-6 items-center gap-3 text-sm text-slate-400">
+                            <SearchStatus
+                                error={error}
+                                hasSearched={hasSearched}
+                                count={tracks.length}
+                            />
+                        </div>
+                    ) : null
+                }
             </div>
 
             <TrackResults
