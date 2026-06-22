@@ -1,12 +1,21 @@
+import {useSearchParams} from 'react-router-dom';
 import SearchBar from "../components/search/SearchBar.js";
 import SearchStatus from "../components/search/SearchStatus.js";
 import TrackResults from "../components/search/TrackResults.js";
 import {Sparkles} from "lucide-react";
 import useTrackSearch from "../hooks/useTrackSearch.js";
 
-
 export default function TrackSearchView({onSelectTrack}) {
-    const {query, setQuery, tracks, hasSearched, isLoading, error, search} = useTrackSearch();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialQuery = searchParams.get('q') ?? '';
+
+    const {query, setQuery, tracks, hasSearched, isLoading, error, search} = useTrackSearch(initialQuery);
+
+    const handleSubmit = (event) => {
+        const trimmed = query.trim();
+        if (trimmed) setSearchParams({q: trimmed}, {replace: true});
+        search(event);
+    };
 
     return (
         <section className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
@@ -26,22 +35,20 @@ export default function TrackSearchView({onSelectTrack}) {
                     <SearchBar
                         query={query}
                         onChange={setQuery}
-                        onSubmit={search}
+                        onSubmit={handleSubmit}
                         isLoading={isLoading}
                     />
                 </div>
 
-                {
-                    hasSearched ? (
-                        <div className="mt-4 flex min-h-6 items-center gap-3 text-sm text-slate-400">
-                            <SearchStatus
-                                error={error}
-                                hasSearched={hasSearched}
-                                count={tracks.length}
-                            />
-                        </div>
-                    ) : null
-                }
+                {hasSearched ? (
+                    <div className="mt-4 flex min-h-6 items-center gap-3 text-sm text-slate-400">
+                        <SearchStatus
+                            error={error}
+                            hasSearched={hasSearched}
+                            count={tracks.length}
+                        />
+                    </div>
+                ) : null}
             </div>
 
             <TrackResults

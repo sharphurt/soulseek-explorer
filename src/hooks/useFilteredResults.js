@@ -1,6 +1,7 @@
 import {useMemo, useState} from 'react';
 import {getFileExtension} from '../utils/formatters';
-import {getFileNode, getSortValue} from '../utils/utils';
+import {getFileNode} from "../utils/getFileNode.js";
+import {getSortValue} from "../utils/getSortValue.js";
 
 export const EXTENSION_OPTIONS = ['ALL', 'FLAC', 'MP3', 'OPUS'];
 export const SORT_OPTIONS = [

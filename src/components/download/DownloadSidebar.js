@@ -28,18 +28,8 @@ const DownloadSidebar = ({isOpen, onClose}) => {
                                 Downloads
                             </h2>
                         </div>
-                        <p className="mt-1 text-xs text-slate-500">
-                            {lastUpdated ? lastUpdated.toLocaleTimeString() : 'Polling active'}
-                        </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <button
-                            type="button"
-                            className="icon-button"
-                            onClick={() => refreshDownloads({force: true, silent: false})}
-                        >
-                            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}/>
-                        </button>
                         <button type="button" className="icon-button lg:hidden" onClick={onClose}>
                             <PanelRightClose className="h-4 w-4"/>
                         </button>

@@ -6,8 +6,8 @@ import {
     getFileExtension
 } from "../../utils/formatters.js";
 import {Loader2, Play, Plus} from "lucide-react";
-import {getFileNode, getSimilarityLabel} from "../../utils/utils.js";
-
+import {getFileNode} from "../../utils/getFileNode.js";
+import {getSimilarityLabel} from "../../utils/getSimilarityLabel.js";
 
 const ResultRow = ({result, onPlay, isDownloading}) => {
     const fileNode = getFileNode(result);

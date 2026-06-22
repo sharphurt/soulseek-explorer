@@ -1,18 +1,14 @@
-import {useState} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {apiRequest} from '../utils/api';
 
-const useTrackSearch = () => {
-    const [query, setQuery] = useState('');
+const useTrackSearch = (initialQuery = '') => {
+    const [query, setQuery] = useState(initialQuery);
     const [tracks, setTracks] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const search = async (event) => {
-        event.preventDefault();
-        const trimmed = query.trim();
-        if (!trimmed) return;
-
+    const runSearch = async (trimmed) => {
         setIsLoading(true);
         setError('');
         setHasSearched(true);
@@ -31,7 +27,22 @@ const useTrackSearch = () => {
         }
     };
 
+    const didAutoSearch = useRef(false);
+    useEffect(() => {
+        if (initialQuery && !didAutoSearch.current) {
+            didAutoSearch.current = true;
+            runSearch(initialQuery);
+        }
+    }, []);
+
+    const search = async (event) => {
+        event.preventDefault();
+        const trimmed = query.trim();
+        if (!trimmed) return;
+        await runSearch(trimmed);
+    };
+
     return {query, setQuery, tracks, hasSearched, isLoading, error, search};
-}
+};
 
 export default useTrackSearch;

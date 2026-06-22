@@ -1,14 +1,17 @@
 import {Loader2, Music2} from 'lucide-react';
+import {useLocation} from 'react-router-dom';
 import {getTrackId} from '../utils/formatters';
-import {getFileNode} from '../utils/utils';
 import {useSoulseekSearch} from '../hooks/useSoulseekSearch.js';
 import {useFilteredResults} from '../hooks/useFilteredResults.js';
 import {useFileDownload} from '../hooks/useFileDownload.js';
 import SearchControls from '../components/soulseek/SearchControls.js';
 import SearchStatus from '../components/soulseek/SearchStatus.js';
 import SearchResultItem from '../components/soulseek/SearchResultItem.js';
+import {getFileNode} from "../utils/getFileNode.js";
 
-export default function SoulseekResultsView({selectedTrack, onBack, onNotify}) {
+export default function SoulseekResultsView({onBack, onNotify}) {
+    const {state} = useLocation();
+    const selectedTrack = state?.selectedTrack;
     const trackId = getTrackId(selectedTrack);
 
     const {results, taskIds, isInitializing, isPolling, error, lastPolledAt} =
