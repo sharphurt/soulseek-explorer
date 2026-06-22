@@ -14,6 +14,7 @@ export default function SoulseekResultsView({onBack, onNotify}) {
     const selectedTrack = state?.selectedTrack;
     const trackId = getTrackId(selectedTrack);
 
+
     const {results, taskIds, isInitializing, isPolling, error, lastPolledAt} =
         useSoulseekSearch(trackId);
 

@@ -8,13 +8,13 @@ const useStreamStatus = (activeStream, downloads) => {
 
     useEffect(() => {
         setStatus('buffering');
-    }, [activeStream?.id]);
+    }, [activeStream?.uuid]);
 
     useEffect(() => {
         if (!activeStream || status !== 'buffering') return;
 
         const intervalId = setInterval(() => {
-            const download = downloads.find(d => d.id === activeStream.id);
+            const download = downloads.find(d => d.uuid === activeStream.uuid);
             if ((download?.bytesTransferred ?? 0) > BYTES_THRESHOLD) {
                 setStatus('playing');
             }

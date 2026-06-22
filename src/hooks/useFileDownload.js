@@ -11,6 +11,7 @@ export const useFileDownload = ({selectedTrack, onNotify}) => {
 
     const download = async (fileNode) => {
         const body = {
+            trackId: selectedTrack.iTunesId,
             filename: fileNode.filename,
             size: fileNode.size,
             username: fileNode.username,
@@ -27,11 +28,9 @@ export const useFileDownload = ({selectedTrack, onNotify}) => {
             onNotify({type: 'success', title: 'Download queued', message: getBaseFilename(body.filename)});
             refreshDownloads({force: true, silent: false});
 
-            const [task] = data.enqueued ?? [];
-            if (task) {
+            if (data) {
                 setActiveStream({
-                    id: task.id,
-                    filename: task.filename,
+                    uuid: data.uuid,
                     displayName: selectedTrack.title || 'Unknown Track',
                     artist: selectedTrack.artist || 'Unknown Artist',
                 });

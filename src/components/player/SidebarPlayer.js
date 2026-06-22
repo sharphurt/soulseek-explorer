@@ -25,7 +25,7 @@ const SidebarPlayer = () => {
 
     if (!activeStream) return <EmptyPlayer/>;
 
-    const streamUrl = `${API_BASE_URL}/soulseek/stream?transferId=${activeStream.id}`;
+    const streamUrl = `${API_BASE_URL}/soulseek/stream?downloadUuid=${activeStream.uuid}`;
 
     return (
         <div className="flex flex-col border-t border-white/10 bg-slate-900 p-4 shadow-lg">
