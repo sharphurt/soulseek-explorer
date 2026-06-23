@@ -26,12 +26,12 @@ export function DownloadProvider({children}) {
         if (!silent) setIsLoading(true);
 
         try {
-            const payload = await apiRequest('/soulseek/download/list', {
+            const result = await apiRequest('/soulseek/download/list', {
                 signal: controller.signal,
             });
 
             if (!controller.signal.aborted) {
-                setDownloads(normalizeDownloads(payload));
+                setDownloads(normalizeDownloads(result.data));
                 setError('');
                 setLastUpdated(new Date());
             }

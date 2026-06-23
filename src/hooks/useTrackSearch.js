@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {apiRequest} from '../utils/api';
 
 const useTrackSearch = (initialQuery = '') => {
@@ -14,11 +14,11 @@ const useTrackSearch = (initialQuery = '') => {
         setHasSearched(true);
 
         try {
-            const payload = await apiRequest('/search/track', {
+            const result = await apiRequest('/search/track', {
                 method: 'POST',
                 body: JSON.stringify({query: trimmed, page: 1, limit: 100, type: 'TRACK'}),
             });
-            setTracks(Array.isArray(payload?.entities) ? payload.entities : []);
+            setTracks(Array.isArray(result.data?.entities) ? result.data.entities : []);
         } catch (err) {
             setTracks([]);
             setError(err.message || 'Track search failed');

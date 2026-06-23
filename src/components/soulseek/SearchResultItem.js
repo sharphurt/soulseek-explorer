@@ -9,7 +9,7 @@ import {Loader2, Play, Plus} from "lucide-react";
 import {getFileNode} from "../../utils/getFileNode.js";
 import {getSimilarityLabel} from "../../utils/getSimilarityLabel.js";
 
-const ResultRow = ({result, onPlay, isDownloading}) => {
+const ResultRow = ({result, onPlay, onAdd, isDownloading}) => {
     const fileNode = getFileNode(result);
     const filename = fileNode.filename || '';
     const baseFilename = getBaseFilename(filename);
@@ -22,7 +22,7 @@ const ResultRow = ({result, onPlay, isDownloading}) => {
                 <button
                     type="button"
                     className="focus-ring inline-flex h-9 w-9 rounded-3xl items-center justify-center gap-2 mr-4 bg-indigo-300/10 px-3 text-indigo-100 text-sm font-semibold transition hover:bg-cyan-200 disabled:bg-slate-700 disabled:text-slate-400"
-                    onClick={() => onPlay(fileNode)}
+                    onClick={() => onAdd(fileNode)}
                     disabled={isDownloading}
                 >
                     {isDownloading ? (

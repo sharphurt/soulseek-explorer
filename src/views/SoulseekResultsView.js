@@ -3,17 +3,17 @@ import {useLocation} from 'react-router-dom';
 import {getTrackId} from '../utils/formatters';
 import {useSoulseekSearch} from '../hooks/useSoulseekSearch.js';
 import {useFilteredResults} from '../hooks/useFilteredResults.js';
-import {useFileDownload} from '../hooks/useFileDownload.js';
 import SearchControls from '../components/soulseek/SearchControls.js';
 import SearchStatus from '../components/soulseek/SearchStatus.js';
 import SearchResultItem from '../components/soulseek/SearchResultItem.js';
 import {getFileNode} from "../utils/getFileNode.js";
+import {usePlayStream} from "../hooks/usePlayStream.js";
+import {useAddToLibrary} from "../hooks/useAddToLibrary.js";
 
-export default function SoulseekResultsView({onBack, onNotify}) {
+const SoulseekResultsView = ({onBack, onNotify}) => {
     const {state} = useLocation();
     const selectedTrack = state?.selectedTrack;
     const trackId = getTrackId(selectedTrack);
-
 
     const {results, taskIds, isInitializing, isPolling, error, lastPolledAt} =
         useSoulseekSearch(trackId);
@@ -25,7 +25,9 @@ export default function SoulseekResultsView({onBack, onNotify}) {
         sortDirection, toggleDirection,
     } = useFilteredResults(results);
 
-    const {downloadingKey, download} = useFileDownload({selectedTrack, onNotify});
+
+    const {downloadAndPlayKey, downloadAndPlay} = usePlayStream({selectedTrack, onNotify});
+    const {downloadAndAddKey, downloadAndAdd} = useAddToLibrary({selectedTrack, onNotify});
 
     return (
         <section className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
@@ -82,8 +84,9 @@ export default function SoulseekResultsView({onBack, onNotify}) {
                                     <SearchResultItem
                                         key={fileNode.id ?? fileNode.filename ?? index}
                                         result={result}
-                                        onPlay={download}
-                                        isDownloading={downloadingKey === rowKey}
+                                        onAdd={downloadAndAdd}
+                                        onPlay={downloadAndPlay}
+                                        isDownloading={downloadAndAddKey === rowKey || downloadAndPlayKey === rowKey}
                                     />
                                 );
                             })}
@@ -95,3 +98,5 @@ export default function SoulseekResultsView({onBack, onNotify}) {
         </section>
     );
 }
+
+export default SoulseekResultsView;

@@ -25,11 +25,11 @@ export const useSoulseekSearch = (trackId) => {
             setIsInitializing(true);
             setError('');
             try {
-                const payload = await apiRequest(
+                const result = await apiRequest(
                     `/soulseek/search?trackId=${encodeURIComponent(trackId)}`,
                     {method: 'POST', signal},
                 );
-                if (active) setTaskIds(Array.isArray(payload) ? payload : []);
+                if (active) setTaskIds(Array.isArray(result.data) ? result.data : []);
             } catch (err) {
                 if (active && err.name !== 'AbortError')
                     setError(err.message || 'Unable to initialize soulseek');
@@ -42,12 +42,12 @@ export const useSoulseekSearch = (trackId) => {
             if (!active) return;
             setIsPolling(true);
             try {
-                const payload = await apiRequest(
+                const result = await apiRequest(
                     `/soulseek/search/results?trackId=${encodeURIComponent(trackId)}`,
                     {signal},
                 );
                 if (active) {
-                    setResults(Array.isArray(payload) ? payload : []);
+                    setResults(Array.isArray(result.data) ? result.data : []);
                     setError('');
                     setLastPolledAt(new Date());
                 }
