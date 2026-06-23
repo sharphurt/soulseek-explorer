@@ -22,7 +22,7 @@ const DownloadList = ({downloads, isLoading}) => {
         );
     }
 
-    const inProgress = downloads.filter((download) => download.state !== 'Completed, Succeeded');
+    const inProgress = downloads.filter((download) => download.state === 'InProgress' || download.state === 'Queued');
 
     return (
         <div className="space-y-3">
@@ -45,7 +45,7 @@ const DownloadList = ({downloads, isLoading}) => {
             <details>
                 <summary>Последние загрузки</summary>
                 <div className='pt-2'>
-                    {downloads.filter((download) => download.state === 'Completed, Succeeded').map((download, index) => (
+                    {downloads.filter((download) => download.state !== 'InProgress').map((download, index) => (
                         <DownloadItem
                             key={download.id ?? download.uuid ?? `${download.filename}-${index}`}
                             download={download}

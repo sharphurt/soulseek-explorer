@@ -3,15 +3,15 @@ import {EXTENSION_OPTIONS, SORT_OPTIONS} from '../../hooks/useFilteredResults.js
 import TrackSummary from './TrackSummary.js';
 
 const SearchControls = ({
-                                   track,
-                                   onBack,
-                                   filterExtension,
-                                   onFilterChange,
-                                   sortBy,
-                                   onSortChange,
-                                   sortDirection,
-                                   onToggleDirection,
-                               }) => {
+                            track,
+                            onBack,
+                            filterExtension,
+                            onFilterChange,
+                            sortBy,
+                            onSortChange,
+                            sortDirection,
+                            onToggleDirection,
+                        }) => {
     return (
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex min-w-0 items-center gap-3">

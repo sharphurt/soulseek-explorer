@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {apiRequest} from '../utils/api';
 
 const POLL_INTERVAL_MS = 2000;
@@ -6,10 +6,14 @@ const POLL_INTERVAL_MS = 2000;
 export const useSoulseekSearch = (trackId) => {
     const [results, setResults] = useState([]);
     const [taskIds, setTaskIds] = useState([]);
+    const [trackData, setTrackData] = useState({});
+    const [isAlreadyDownloaded, setIsAlreadyDownloaded] = useState(false);
     const [isInitializing, setIsInitializing] = useState(false);
     const [isPolling, setIsPolling] = useState(false);
     const [error, setError] = useState('');
     const [lastPolledAt, setLastPolledAt] = useState(null);
+    const postSentForTrackId = useRef(null);
+    const alreadyDownloadedRef = useRef(false); // shared между mount-ами
 
     useEffect(() => {
         if (!trackId) {
@@ -17,29 +21,15 @@ export const useSoulseekSearch = (trackId) => {
             return;
         }
 
+        alreadyDownloadedRef.current = false; // сброс при смене trackId
+
         let active = true;
         const controller = new AbortController();
         const {signal} = controller;
 
-        const initialize = async () => {
-            setIsInitializing(true);
-            setError('');
-            try {
-                const result = await apiRequest(
-                    `/soulseek/search?trackId=${encodeURIComponent(trackId)}`,
-                    {method: 'POST', signal},
-                );
-                if (active) setTaskIds(Array.isArray(result.data) ? result.data : []);
-            } catch (err) {
-                if (active && err.name !== 'AbortError')
-                    setError(err.message || 'Unable to initialize soulseek');
-            } finally {
-                if (active) setIsInitializing(false);
-            }
-        };
-
         const poll = async () => {
-            if (!active) return;
+            if (!active || alreadyDownloadedRef.current) return;
+
             setIsPolling(true);
             try {
                 const result = await apiRequest(
@@ -55,7 +45,37 @@ export const useSoulseekSearch = (trackId) => {
                 if (active && err.name !== 'AbortError')
                     setError(err.message || 'Unable to load results');
             } finally {
-                if (active) setIsPolling(false);
+                setIsPolling(false);
+            }
+        };
+
+        const initialize = async () => {
+            if (postSentForTrackId.current === trackId) return;
+            postSentForTrackId.current = trackId;
+
+            setIsInitializing(true);
+            setError('');
+            try {
+                const result = await apiRequest(
+                    `/soulseek/search?trackId=${encodeURIComponent(trackId)}`,
+                    {method: 'POST'}
+                );
+
+                const downloaded =
+                    result.data.trackData.trackStatus === 'IN_LIBRARY' ||
+                    result.data.trackData.trackStatus === 'IN_TEMP_STORAGE';
+
+                alreadyDownloadedRef.current = downloaded;
+
+                setTrackData(result.data.trackData || null);
+                setTaskIds(Array.isArray(result.data.createdTasks) ? result.data.createdTasks : []);
+                setIsAlreadyDownloaded(downloaded);
+                console.log(downloaded);
+            } catch (err) {
+                if (active && err.name !== 'AbortError')
+                    setError(err.message || 'Unable to initialize soulseek');
+            } finally {
+                setIsInitializing(false);
             }
         };
 
@@ -69,5 +89,5 @@ export const useSoulseekSearch = (trackId) => {
         };
     }, [trackId]);
 
-    return {results, taskIds, isInitializing, isPolling, error, lastPolledAt};
+    return {results, trackData, taskIds, isInitializing, isAlreadyDownloaded, isPolling, error, lastPolledAt};
 }
