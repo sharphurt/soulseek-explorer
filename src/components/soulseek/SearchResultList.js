@@ -33,12 +33,12 @@ const SearchResultList = ({trackData, visibleResults, isInitializing, isPolling,
                     </tr>
                     </thead>
                     <tbody>
-                    {visibleResults.map((result, index) => {
+                    {visibleResults.map((result) => {
                         const fileNode = getFileNode(result);
                         const rowKey = `${fileNode.username ?? fileNode.userName ?? fileNode.user}-${fileNode.filename}`;
                         return (
                             <SearchResultItem
-                                key={fileNode.id ?? fileNode.filename ?? index}
+                                key={rowKey}
                                 result={result}
                                 onAdd={downloadAndAdd}
                                 onPlay={downloadAndPlay}

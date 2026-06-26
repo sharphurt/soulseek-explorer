@@ -74,6 +74,7 @@ function AppShell() {
                 <DownloadSidebar
                     isOpen={isDownloadsOpen}
                     onClose={closeSidebar}
+                    onNotify={notify}
                 />
             </div>
 

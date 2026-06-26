@@ -22,7 +22,8 @@ const DownloadList = ({downloads, isLoading}) => {
         );
     }
 
-    const inProgress = downloads.filter((download) => download.state === 'InProgress' || download.state === 'Queued');
+    const visibleByDefaultStatusRegexp = /inprogress|queued/i
+    const inProgress = downloads.filter((download) => visibleByDefaultStatusRegexp.test(download.state));
 
     return (
         <div className="space-y-3">
@@ -45,7 +46,7 @@ const DownloadList = ({downloads, isLoading}) => {
             <details>
                 <summary>Последние загрузки</summary>
                 <div className='pt-2'>
-                    {downloads.filter((download) => download.state !== 'InProgress').map((download, index) => (
+                    {downloads.filter((download) => !visibleByDefaultStatusRegexp.test(download.state)).sort((download) => download.endedAt || download.startedAt).reverse().map((download, index) => (
                         <DownloadItem
                             key={download.id ?? download.uuid ?? `${download.filename}-${index}`}
                             download={download}

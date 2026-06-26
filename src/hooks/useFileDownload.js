@@ -26,7 +26,7 @@ export const useFileDownload = ({selectedTrack, intent, onNotify, onSuccess}) =>
 
             onNotify({type: 'success', title: 'Download queued', message: getBaseFilename(body.filename)});
             refreshDownloads({force: true, silent: false});
-            await onSuccess(result.data);
+            await onSuccess(result.data, fileNode);
         } catch (err) {
             onNotify({type: 'error', title: 'Download failed', message: err.message || 'Unable to start download'});
         } finally {

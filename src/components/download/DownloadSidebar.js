@@ -1,10 +1,10 @@
-import {Activity, PanelRightClose, RefreshCw} from 'lucide-react';
+import {Activity, PanelRightClose} from 'lucide-react';
 import {useDownloads} from '../../context/DownloadContext.js';
 import SidebarPlayer from '../player/SidebarPlayer.js';
 import DownloadList from "./DownloadList.js";
 
-const DownloadSidebar = ({isOpen, onClose}) => {
-    const {downloads, error, isLoading, lastUpdated, refreshDownloads} = useDownloads();
+const DownloadSidebar = ({isOpen, onClose, onNotify}) => {
+    const {downloads, error, isLoading} = useDownloads();
 
     return (
         <>
@@ -48,7 +48,7 @@ const DownloadSidebar = ({isOpen, onClose}) => {
                 </div>
 
                 <div className="shrink-0">
-                    <SidebarPlayer/>
+                    <SidebarPlayer onNotify={onNotify}/>
                 </div>
             </aside>
         </>

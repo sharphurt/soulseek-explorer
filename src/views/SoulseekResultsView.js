@@ -5,6 +5,7 @@ import {useFilteredResults} from '../hooks/useFilteredResults.js';
 import SearchControls from '../components/soulseek/SearchControls.js';
 import SearchStatus from '../components/soulseek/SearchStatus.js';
 import SearchResultList from "../components/soulseek/SearchResultList.js";
+import AlreadyDownloadedTrackInfo from "../components/soulseek/AlreadyDownloadedTrackInfo.js";
 
 const SoulseekResultsView = ({onBack, onNotify}) => {
     const {state} = useLocation();
@@ -54,11 +55,15 @@ const SoulseekResultsView = ({onBack, onNotify}) => {
             </div>
 
             <div className="glass-panel min-h-[420px] overflow-hidden rounded-xl">
-                <SearchResultList visibleResults={visibleResults}
-                                  isPolling={isPolling}
-                                  trackData={trackData}
-                                  isInitializing={isInitializing}
-                                  onNotify={onNotify}/>
+                {
+                    isAlreadyDownloaded
+                        ? <AlreadyDownloadedTrackInfo/>
+                        : <SearchResultList visibleResults={visibleResults}
+                                            isPolling={isPolling}
+                                            trackData={trackData}
+                                            isInitializing={isInitializing}
+                                            onNotify={onNotify}/>
+                }
             </div>
         </section>
     );
